@@ -1,0 +1,10 @@
+name: EmpireEconomy
+version: ${project.version}
+main: io.github.ellismatthew4.empireeconomy.EmpireEconomy
+api-version: 1.16
+description: A plugin designed for the upcoming Empire server
+commands:
+  godmode:
+    description: Become invincible.
+  emperor:
+    description: Assigns the role of emperor.
