@@ -8,7 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class Pay implements CommandExecutor {
+public class Pay extends PluginCommand {
+
+    public Pay() {
+        super("pay");
+    }
+
     // /pay <target> <amount>
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

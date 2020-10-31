@@ -20,11 +20,13 @@ public final class EmpireEconomy extends JavaPlugin {
         instance = this;
         currency = YamlConfiguration.loadConfiguration(new File("currencydata.yml"));
 
-        getCommand("godmode").setExecutor(new GodMode());
-        getCommand("emperor").setExecutor(new Emperor());
-        getCommand("balance").setExecutor(new Balance());
-        getCommand("pay").setExecutor(new Pay());
-        getCommand("createmoney").setExecutor(new CreateMoney());
+        new CommandLoader()
+                .withCommand(new CreateMoney())
+                .withCommand(new Balance())
+                .withCommand(new Emperor())
+                .withCommand(new GodMode())
+                .withCommand(new Pay())
+                .load(this);
         getServer().getPluginManager().registerEvents(new deathListener(), this);
         getServer().getPluginManager().registerEvents(new joinListener(), this);
     }

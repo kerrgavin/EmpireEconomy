@@ -7,7 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class CreateMoney implements CommandExecutor {
+public class CreateMoney extends PluginCommand {
+
+    public CreateMoney() {
+        super("createmoney");
+    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

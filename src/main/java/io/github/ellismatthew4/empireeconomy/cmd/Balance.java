@@ -7,7 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class Balance implements CommandExecutor {
+public class Balance extends PluginCommand {
+
+    public Balance() {
+        super("balance");
+    }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
