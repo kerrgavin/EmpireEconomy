@@ -1,16 +1,14 @@
 package io.github.ellismatthew4.empireeconomy;
 
 import io.github.ellismatthew4.empireeconomy.cmd.*;
-import io.github.ellismatthew4.empireeconomy.events.EventLoader;
+import io.github.ellismatthew4.empireeconomy.utils.CommandLoader;
+import io.github.ellismatthew4.empireeconomy.utils.EventLoader;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
 import io.github.ellismatthew4.empireeconomy.events.joinListener;
 import io.github.ellismatthew4.empireeconomy.utils.PluginIO;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.logging.Logger;
 
 public final class EmpireEconomy extends JavaPlugin {

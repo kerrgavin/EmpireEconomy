@@ -1,8 +1,6 @@
 package io.github.ellismatthew4.empireeconomy.cmd;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import io.github.ellismatthew4.empireeconomy.utils.CommandValidationHelper;
 import org.bukkit.entity.Player;
 
 public class GodMode extends PluginCommand {
@@ -12,16 +10,20 @@ public class GodMode extends PluginCommand {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
-            if (player.isOp()) {
-                player.setInvulnerable(!player.isInvulnerable());
-                player.sendMessage("God mode has been set to " + player.isInvulnerable());
-            } else {
-                player.sendMessage("You do not have permission to use this command.");
-            }
+    public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
+        Player player = senderContainer.getPlayer();
+        if (player.isOp()) {
+            player.setInvulnerable(!player.isInvulnerable());
+            player.sendMessage("God mode has been set to " + player.isInvulnerable());
+        } else {
+            player.sendMessage("You do not have permission to use this command.");
         }
         return true;
+    }
+
+    @Override
+    public boolean validate(SenderContainer senderContainer, CommandCall commandCall) {
+        CommandValidationHelper validationHelper = new CommandValidationHelper(this, senderContainer, commandCall);
+        return validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(0);
     }
 }

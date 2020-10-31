@@ -1,4 +1,4 @@
-package io.github.ellismatthew4.empireeconomy.events;
+package io.github.ellismatthew4.empireeconomy.utils;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;

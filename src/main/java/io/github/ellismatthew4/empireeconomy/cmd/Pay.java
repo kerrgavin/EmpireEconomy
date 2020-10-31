@@ -1,15 +1,11 @@
 package io.github.ellismatthew4.empireeconomy.cmd;
 
-import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import io.github.ellismatthew4.empireeconomy.utils.CommandValidationHelper;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Pay extends PluginCommand {
-    private YamlConfiguration currency;
+    private final YamlConfiguration currency;
 
     public Pay(YamlConfiguration currency) {
         super("pay");
@@ -18,34 +14,25 @@ public class Pay extends PluginCommand {
 
     // /pay <target> <amount>
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player) {
-            if (strings.length != 2) {
-                return false;
-            }
-            Player p = (Player) commandSender;
-            Player target = Bukkit.getPlayer(strings[0]);
-            int amountToPay;
-            try {
-                amountToPay = Integer.parseInt(strings[1]);
-                if (amountToPay < 0) {
-                    p.sendMessage("Don't pay people negative money. Have them pay you.");
-                    return false;
-                }
-            } catch(Exception e) {
-                p.sendMessage("Don't do that.");
-                return false;
-            }
-            int balance = currency.getInt(p.getDisplayName());
-            if (balance < amountToPay) {
-                p.sendMessage("You do not have enough money to do that.");
-                return false;
-            }
-            int targetBalance = currency.getInt(target.getDisplayName());
-            currency.set(p.getDisplayName(), balance - amountToPay);
-            currency.set(target.getDisplayName(), currency.getInt(target.getDisplayName()) + amountToPay);
-            p.sendMessage("You paid $" + amountToPay + " to " + target.getDisplayName());
+    public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
+        Player p = senderContainer.getPlayer();
+        Player target = commandCall.getArg(0).asPlayer();
+        int amountToPay = commandCall.getArg(1).asInt();
+        int balance = currency.getInt(p.getDisplayName());
+        if (balance < amountToPay) {
+            p.sendMessage("You do not have enough money to do that.");
+            return false;
         }
+        currency.set(p.getDisplayName(), balance - amountToPay);
+        currency.set(target.getDisplayName(), currency.getInt(target.getDisplayName()) + amountToPay);
+        p.sendMessage("You paid $" + amountToPay + " to " + target.getDisplayName());
         return true;
+    }
+
+    @Override
+    public boolean validate(SenderContainer senderContainer, CommandCall commandCall) {
+        CommandValidationHelper validationHelper = new CommandValidationHelper(this, senderContainer, commandCall);
+        return validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(2)
+                && validationHelper.isValidPlayer(commandCall.getArg(0)) && validationHelper.isValidAmount(commandCall.getArg(1));
     }
 }
