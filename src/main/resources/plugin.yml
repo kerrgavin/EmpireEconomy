@@ -8,3 +8,11 @@ commands:
     description: Become invincible.
   emperor:
     description: Assigns the role of emperor.
+  balance:
+    description: Returns your current bank balance.
+  pay:
+    description: Gives another player some of your money.
+    usage: /pay <target> <amount>
+  createmoney:
+    description: Prints new money. WARNING - CAN CAUSE INFLATION
+    usage: /createmoney <amount>
