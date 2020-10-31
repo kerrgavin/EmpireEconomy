@@ -9,9 +9,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Pay extends PluginCommand {
+    private YamlConfiguration currency;
 
-    public Pay() {
+    public Pay(YamlConfiguration currency) {
         super("pay");
+        this.currency = currency;
     }
 
     // /pay <target> <amount>
@@ -21,7 +23,6 @@ public class Pay extends PluginCommand {
             if (strings.length != 2) {
                 return false;
             }
-            YamlConfiguration currency = EmpireEconomy.getCurrencyObject();
             Player p = (Player) commandSender;
             Player target = Bukkit.getPlayer(strings[0]);
             int amountToPay;

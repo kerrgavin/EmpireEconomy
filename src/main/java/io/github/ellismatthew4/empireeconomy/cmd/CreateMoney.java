@@ -8,9 +8,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class CreateMoney extends PluginCommand {
+    private YamlConfiguration currency;
 
-    public CreateMoney() {
+    public CreateMoney(YamlConfiguration currency) {
         super("createmoney");
+        this.currency = currency;
     }
 
     @Override
@@ -18,7 +20,6 @@ public class CreateMoney extends PluginCommand {
         if (commandSender instanceof Player) {
             String p = ((Player) commandSender).getDisplayName();
             int amount = Integer.parseInt(strings[0]);
-            YamlConfiguration currency = EmpireEconomy.getCurrencyObject();
             int balance = currency.getInt(p);
             currency.set(p, balance + amount);
             return true;

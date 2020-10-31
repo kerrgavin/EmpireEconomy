@@ -4,53 +4,43 @@ import io.github.ellismatthew4.empireeconomy.cmd.*;
 import io.github.ellismatthew4.empireeconomy.events.EventLoader;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
 import io.github.ellismatthew4.empireeconomy.events.joinListener;
+import io.github.ellismatthew4.empireeconomy.utils.PluginIO;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 public final class EmpireEconomy extends JavaPlugin {
+    private final Logger LOGGER = getLogger();
+    private final PluginIO pluginIO = new PluginIO(LOGGER);
+    private final String CURRENCY_YML_PATH = "currencydata.yml";
     private static EmpireEconomy instance;
     private static YamlConfiguration currency;
 
     @Override
     public void onEnable() {
-        getLogger().info("Activating gamer mode...");
+        LOGGER.info("Activating gamer mode...");
         instance = this;
-        currency = YamlConfiguration.loadConfiguration(new File("currencydata.yml"));
+        currency = pluginIO.readYml(CURRENCY_YML_PATH);
         new CommandLoader()
-                .withCommand(new CreateMoney())
-                .withCommand(new Balance())
+                .withCommand(new CreateMoney(currency))
+                .withCommand(new Balance(currency))
                 .withCommand(new Emperor())
                 .withCommand(new GodMode())
-                .withCommand(new Pay())
+                .withCommand(new Pay(currency))
                 .load(this);
         new EventLoader()
-                .withEvent(new deathListener())
-                .withEvent(new joinListener())
+                .withEvent(new deathListener(this))
+                .withEvent(new joinListener(currency))
                 .load(this);
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("Deactivating gamer mode...");
-        PrintWriter out = null;
-        try {
-            out = new PrintWriter("currencydata.yml");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        out.println(currency.saveToString());
-        out.close();
-    }
-
-    public static JavaPlugin getPlugin() {
-        return instance;
-    }
-
-    public static YamlConfiguration getCurrencyObject() {
-        return currency;
+        LOGGER.info("Deactivating gamer mode...");
+        pluginIO.writeYml(CURRENCY_YML_PATH, currency);
     }
 }
