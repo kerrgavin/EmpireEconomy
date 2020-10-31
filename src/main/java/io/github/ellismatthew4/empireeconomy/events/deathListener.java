@@ -1,6 +1,5 @@
 package io.github.ellismatthew4.empireeconomy.events;
 
-import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;

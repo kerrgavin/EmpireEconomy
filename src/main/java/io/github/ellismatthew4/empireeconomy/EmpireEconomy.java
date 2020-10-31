@@ -17,13 +17,11 @@ public final class EmpireEconomy extends JavaPlugin {
     private final Logger LOGGER = getLogger();
     private final PluginIO pluginIO = new PluginIO(LOGGER);
     private final String CURRENCY_YML_PATH = "currencydata.yml";
-    private static EmpireEconomy instance;
     private static YamlConfiguration currency;
 
     @Override
     public void onEnable() {
         LOGGER.info("Activating gamer mode...");
-        instance = this;
         currency = pluginIO.readYml(CURRENCY_YML_PATH);
         new CommandLoader()
                 .withCommand(new CreateMoney(currency))
