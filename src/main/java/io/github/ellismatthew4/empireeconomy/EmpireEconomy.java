@@ -1,6 +1,7 @@
 package io.github.ellismatthew4.empireeconomy;
 
 import io.github.ellismatthew4.empireeconomy.cmd.*;
+import io.github.ellismatthew4.empireeconomy.events.EventLoader;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
 import io.github.ellismatthew4.empireeconomy.events.joinListener;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,7 +20,6 @@ public final class EmpireEconomy extends JavaPlugin {
         getLogger().info("Activating gamer mode...");
         instance = this;
         currency = YamlConfiguration.loadConfiguration(new File("currencydata.yml"));
-
         new CommandLoader()
                 .withCommand(new CreateMoney())
                 .withCommand(new Balance())
@@ -27,8 +27,10 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new GodMode())
                 .withCommand(new Pay())
                 .load(this);
-        getServer().getPluginManager().registerEvents(new deathListener(), this);
-        getServer().getPluginManager().registerEvents(new joinListener(), this);
+        new EventLoader()
+                .withEvent(new deathListener())
+                .withEvent(new joinListener())
+                .load(this);
     }
 
     @Override

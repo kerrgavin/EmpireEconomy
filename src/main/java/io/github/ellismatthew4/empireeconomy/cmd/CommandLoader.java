@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommandLoader {
-    Map<String, PluginCommand> commandMap;
+    private Map<String, PluginCommand> commandMap;
 
     public CommandLoader() {
         commandMap = new HashMap<>();
