@@ -5,7 +5,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GodMode implements CommandExecutor {
+public class GodMode extends PluginCommand {
+
+    public GodMode() {
+        super("godmode");
+    }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
