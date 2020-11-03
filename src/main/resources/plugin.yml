@@ -9,7 +9,7 @@ commands:
     permission: ee.*
     permission-message: Only an Administrator can use this command.
   emperor:
-    description: Assigns the role of emperor to the user
+    description: Assigns the role of emperor to the user.
     usage: /emperor <PlayerName>
     permission: ee.*
     permission-message: Only an Administrator can use this command.
@@ -23,6 +23,10 @@ commands:
     usage: /createmoney <amount>
     permission: ee.emperor
     permission-message: You must be Emperor to use this command.
+  challenge:
+    description: Issues a challenge to the Emperor, nerfing their powers until you are killed.
+  findemperor:
+    description: Returns the location of the Emperor.
 permissions:
   ee.emperor:
     description: This permission is exclusive for Emperors

@@ -11,10 +11,12 @@ import org.bukkit.entity.Player;
 
 public class CreateMoney extends PluginCommand {
     private ConfigurationSection currency;
+    private EmpireEconomy plugin;
 
-    public CreateMoney(ConfigurationSection currency) {
+    public CreateMoney(EmpireEconomy plugin, ConfigurationSection currency) {
         super("createmoney");
         this.currency = currency;
+        this.plugin = plugin;
     }
 
     @Override
@@ -29,6 +31,6 @@ public class CreateMoney extends PluginCommand {
 
     public boolean validate(SenderContainer senderContainer, CommandCall commandCall) {
         CommandValidationHelper validationHelper = new CommandValidationHelper(this, senderContainer, commandCall);
-        return validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(1);
+        return validationHelper.isChallengeInactive(plugin) && validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(1);
     }
 }
