@@ -13,12 +13,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
-<<<<<<< HEAD
-
-=======
-import java.util.HashMap;
-import java.util.UUID;
->>>>>>> feature/permissions-and-roles
 import java.util.logging.Logger;
 
 public final class EmpireEconomy extends JavaPlugin {
@@ -47,6 +41,7 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new Emperor(this))
                 .withCommand(new GodMode())
                 .withCommand(new Pay(currency))
+                .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
                 .withEvent(new deathListener(this))

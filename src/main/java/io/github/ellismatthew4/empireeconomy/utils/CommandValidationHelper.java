@@ -39,7 +39,7 @@ public class CommandValidationHelper {
     }
 
     public boolean isSenderPlayer() {
-        if (sender.isPlayer()) {
+        if (!sender.isPlayer()) {
             warn("Sender is not a Player");
             return false;
         }

@@ -36,7 +36,8 @@ public class CommandLoader {
                 commandMap.get(key).logger = this.logger;
                 javaPlugin.getCommand(key).setExecutor(commandMap.get(key));
             }
+        } else {
+            throw new RuntimeException("No logger provided for commands");
         }
-        throw new RuntimeException("No logger provided for commands");
     }
 }
