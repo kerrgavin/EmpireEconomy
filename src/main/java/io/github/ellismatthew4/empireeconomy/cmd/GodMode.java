@@ -12,12 +12,8 @@ public class GodMode extends PluginCommand {
     @Override
     public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
         Player player = senderContainer.getPlayer();
-        if (player.isOp()) {
-            player.setInvulnerable(!player.isInvulnerable());
-            player.sendMessage("God mode has been set to " + player.isInvulnerable());
-        } else {
-            player.sendMessage("You do not have permission to use this command.");
-        }
+        player.setInvulnerable(!player.isInvulnerable());
+        player.sendMessage("God mode has been set to " + player.isInvulnerable());
         return true;
     }
 

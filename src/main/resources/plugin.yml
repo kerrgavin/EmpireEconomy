@@ -6,8 +6,13 @@ description: A plugin designed for the upcoming Empire server
 commands:
   godmode:
     description: Become invincible.
+    permission: ee.*
+    permission-message: Only an Administrator can use this command.
   emperor:
-    description: Assigns the role of emperor.
+    description: Assigns the role of emperor to the user
+    usage: /emperor <PlayerName>
+    permission: ee.*
+    permission-message: Only an Administrator can use this command.
   balance:
     description: Returns your current bank balance.
   pay:
@@ -16,3 +21,12 @@ commands:
   createmoney:
     description: Prints new money. WARNING - CAN CAUSE INFLATION
     usage: /createmoney <amount>
+    permission: ee.emperor
+    permission-message: You must be Emperor to use this command.
+permissions:
+  ee.emperor:
+    description: This permission is exclusive for Emperors
+    default: false
+  ee.*:
+    description: Administrator permissions
+    default: op

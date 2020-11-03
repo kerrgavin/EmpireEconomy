@@ -1,13 +1,16 @@
 package io.github.ellismatthew4.empireeconomy.cmd;
 
 import io.github.ellismatthew4.empireeconomy.utils.CommandValidationHelper;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Balance extends PluginCommand {
-    private final YamlConfiguration currency;
+    private ConfigurationSection currency;
 
-    public Balance(YamlConfiguration currency) {
+    public Balance(ConfigurationSection currency) {
         super("balance");
         this.currency = currency;
     }
