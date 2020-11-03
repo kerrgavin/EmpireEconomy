@@ -35,16 +35,22 @@ public final class EmpireEconomy extends JavaPlugin {
             currency = new YamlConfiguration();
             data.set("currency", currency);
         }
+        if (!data.getKeys(false).contains("challengeActive")) {
+            LOGGER.info("No challenge data found! Creating now...");
+            data.set("challengeActive", false);
+        }
         new CommandLoader()
-                .withCommand(new CreateMoney(currency))
+                .withCommand(new CreateMoney(this, currency))
                 .withCommand(new Balance(currency))
                 .withCommand(new Emperor(this))
                 .withCommand(new GodMode())
                 .withCommand(new Pay(currency))
+                .withCommand(new FindEmperor(this))
+                .withCommand(new Challenge(this, data))
                 .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
-                .withEvent(new deathListener(this))
+                .withEvent(new deathListener(this, data))
                 .withEvent(new joinListener(this, currency))
                 .load(this);
     }
@@ -66,6 +72,14 @@ public final class EmpireEconomy extends JavaPlugin {
     public void setEmperor (String playerName) {
         data.set("emperor", playerName);
         emperorPermissions.setEmperor(playerName);
+    }
+
+    public Player getEmperor() {
+        return data.getKeys(false).contains("emperor") ? Bukkit.getPlayer(data.getString("emperor")) : null;
+    }
+
+    public boolean isChallengeActive() {
+        return data.getBoolean("challengeActive");
     }
 }
 

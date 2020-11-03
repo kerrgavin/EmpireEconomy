@@ -1,5 +1,6 @@
 package io.github.ellismatthew4.empireeconomy.utils;
 
+import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
 import io.github.ellismatthew4.empireeconomy.cmd.CommandArgument;
 import io.github.ellismatthew4.empireeconomy.cmd.CommandCall;
 import io.github.ellismatthew4.empireeconomy.cmd.PluginCommand;
@@ -49,6 +50,14 @@ public class CommandValidationHelper {
     public boolean isValidArgCount(int count) {
         if (commandCall.args.size() != count) {
             warnAndSend("Incorrect argument count");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isChallengeInactive(EmpireEconomy plugin) {
+        if (plugin.isChallengeActive()) {
+            warnAndSend("You must kill your challenger before using this command.");
             return false;
         }
         return true;
