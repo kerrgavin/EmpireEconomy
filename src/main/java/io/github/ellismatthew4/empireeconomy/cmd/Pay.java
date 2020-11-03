@@ -5,13 +5,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Pay extends PluginCommand {
-    private YamlConfiguration currency;
+    private ConfigurationSection currency;
 
-    public Pay(YamlConfiguration currency) {
+    public Pay(ConfigurationSection currency) {
         super("pay");
         this.currency = currency;
     }
