@@ -32,6 +32,6 @@ public class Emperor extends PluginCommand {
     @Override
     public boolean validate(SenderContainer senderContainer, CommandCall commandCall) {
         CommandValidationHelper validationHelper = new CommandValidationHelper(this, senderContainer, commandCall);
-        return validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(0);
+        return validationHelper.isSenderPlayer() && validationHelper.isValidArgCount(1);
     }
 }

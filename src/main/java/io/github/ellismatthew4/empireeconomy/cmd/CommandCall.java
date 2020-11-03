@@ -21,6 +21,6 @@ public class CommandCall {
     }
 
     public CommandArgument getArg(int index) {
-        return this.args.get(0);
+        return this.args.get(index);
     }
 }

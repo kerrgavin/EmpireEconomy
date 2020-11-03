@@ -32,6 +32,7 @@ public class Pay extends PluginCommand {
         currency.set(p.getDisplayName(), balance - amountToPay);
         currency.set(target.getDisplayName(), currency.getInt(target.getDisplayName()) + amountToPay);
         p.sendMessage("You paid $" + amountToPay + " to " + target.getDisplayName());
+        target.sendMessage("You have been paid $" + amountToPay + " by " + p.getDisplayName());
         return true;
     }
 
