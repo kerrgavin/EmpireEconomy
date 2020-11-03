@@ -15,6 +15,6 @@ public class SenderContainer {
     }
 
     public Player getPlayer() {
-        return (isPlayer()) ? null : (Player) commandSender;
+        return (isPlayer()) ? (Player) commandSender : null;
     }
 }
