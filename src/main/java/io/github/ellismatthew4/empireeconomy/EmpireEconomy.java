@@ -6,13 +6,14 @@ import io.github.ellismatthew4.empireeconomy.utils.EventLoader;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
 import io.github.ellismatthew4.empireeconomy.events.joinListener;
 import io.github.ellismatthew4.empireeconomy.utils.PluginIO;
+import io.github.ellismatthew4.empireeconomy.utils.Zone;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public final class EmpireEconomy extends JavaPlugin {
@@ -22,6 +23,7 @@ public final class EmpireEconomy extends JavaPlugin {
     private static MemorySection currency;
     private static YamlConfiguration data;
     private EmperorPermissions emperorPermissions;
+    private ArrayList<Zone> zones;
 
     @Override
     public void onEnable() {
@@ -38,6 +40,15 @@ public final class EmpireEconomy extends JavaPlugin {
         if (!data.getKeys(false).contains("challengeActive")) {
             LOGGER.info("No challenge data found! Creating now...");
             data.set("challengeActive", false);
+        }
+        if (data.getKeys(false).contains("zones")) {
+            LOGGER.info("Loading zones...");
+            MemorySection zoneData = (MemorySection) data.getConfigurationSection("zones");
+            for (String i : zoneData.getKeys(false)) {
+                zones.add(new Zone(LOGGER, zoneData.getConfigurationSection(i)));
+            }
+        } else {
+            LOGGER.info("Zone configuration is empty, is this correct?");
         }
         new CommandLoader()
                 .withCommand(new CreateMoney(this, currency))
@@ -59,6 +70,7 @@ public final class EmpireEconomy extends JavaPlugin {
     public void onDisable() {
         LOGGER.info("Deactivating gamer mode...");
         data.set("currency", currency);
+        data.set("zones", compileZoneData());
         pluginIO.writeYml(DATA_YML_PATH, data);
     }
 
@@ -80,6 +92,14 @@ public final class EmpireEconomy extends JavaPlugin {
 
     public boolean isChallengeActive() {
         return data.getBoolean("challengeActive");
+    }
+
+    private YamlConfiguration compileZoneData() {
+        YamlConfiguration res = new YamlConfiguration();
+        for (int i = 0; i < zones.size(); i++) {
+            res.set(String.valueOf(i), zones.get(i).save());
+        }
+        return res;
     }
 }
 
