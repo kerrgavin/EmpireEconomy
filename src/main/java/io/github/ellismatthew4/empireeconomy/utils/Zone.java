@@ -9,10 +9,11 @@ import org.bukkit.entity.Player;
 import java.util.logging.Logger;
 
 public class Zone {
-    private Location loc1;
-    private Location loc2;
-    private String name;
+    public Location loc1;
+    public Location loc2;
+    public String name;
     private String owner;
+    public String msg = "";
 
     public Zone(Location loc1, Location loc2, String owner, String name) {
         this.loc1 = new Location(
@@ -34,6 +35,7 @@ public class Zone {
     public Zone(Logger log, ConfigurationSection zone) {
         this.owner = zone.getString("owner");
         this.name = zone.getString("name");
+        this.msg = zone.getString("msg");
         this.loc1 = new Location(
                 Bukkit.getWorld(zone.getString("world")),
                 zone.getDouble("loc1X"),
@@ -54,6 +56,7 @@ public class Zone {
         res.set("world", loc1.getWorld().getName());
         res.set("owner", owner);
         res.set("name", name);
+        res.set("msg", msg);
         res.set("loc1X", loc1.getX());
         res.set("loc2X", loc2.getX());
         res.set("loc1Y", loc1.getY());
@@ -63,13 +66,16 @@ public class Zone {
         return res;
     }
 
-    public boolean inside(Player p) {
-        Location l = p.getLocation();
+    public boolean inside(Location l) {
         return
                 (l.getX() > Math.min(loc1.getX(), loc2.getX())) &&
                 (l.getX() < Math.max(loc1.getX(), loc2.getX())) &&
                 (l.getZ() > Math.min(loc1.getZ(), loc2.getZ())) &&
                 (l.getZ() < Math.max(loc1.getZ(), loc2.getZ()));
 
+    }
+
+    public double area() {
+        return Math.abs(loc1.getX() - loc2.getX()) * Math.abs(loc1.getZ() - loc2.getZ());
     }
 }

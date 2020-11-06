@@ -4,6 +4,7 @@ import io.github.ellismatthew4.empireeconomy.utils.CommandValidationHelper;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class Wand extends PluginCommand{
 
@@ -15,7 +16,9 @@ public class Wand extends PluginCommand{
     public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
         Player p = senderContainer.getPlayer();
         ItemStack is = new ItemStack(Material.STICK);
-        is.getItemMeta().setDisplayName("Zoning Wand");
+        ItemMeta ism = is.getItemMeta();
+        ism.setDisplayName("Zoning Wand");
+        is.setItemMeta(ism);
         if (p.getInventory().getItemInMainHand() != null
             && p.getInventory().getItemInMainHand().getType() != Material.AIR) {
             p.getInventory().setItemInMainHand(is);

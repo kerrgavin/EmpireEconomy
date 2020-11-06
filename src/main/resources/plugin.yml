@@ -27,6 +27,11 @@ commands:
     description: Issues a challenge to the Emperor, nerfing their powers until you are killed.
   findemperor:
     description: Returns the location of the Emperor.
+  wand:
+    description: Gives you a Zoning Wand.
+  claim:
+    description: Claims the area you just zoned out.
+    usage: /claim <area name>
 permissions:
   ee.emperor:
     description: This permission is exclusive for Emperors

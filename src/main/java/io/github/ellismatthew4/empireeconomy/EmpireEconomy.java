@@ -2,19 +2,16 @@ package io.github.ellismatthew4.empireeconomy;
 
 import io.github.ellismatthew4.empireeconomy.cmd.*;
 import io.github.ellismatthew4.empireeconomy.events.playerClickListener;
-import io.github.ellismatthew4.empireeconomy.utils.CommandLoader;
-import io.github.ellismatthew4.empireeconomy.utils.EventLoader;
+import io.github.ellismatthew4.empireeconomy.events.zoneEntryListener;
+import io.github.ellismatthew4.empireeconomy.utils.*;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
 import io.github.ellismatthew4.empireeconomy.events.joinListener;
-import io.github.ellismatthew4.empireeconomy.utils.PluginIO;
-import io.github.ellismatthew4.empireeconomy.utils.Zone;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public final class EmpireEconomy extends JavaPlugin {
@@ -24,13 +21,15 @@ public final class EmpireEconomy extends JavaPlugin {
     private static MemorySection currency;
     private static YamlConfiguration data;
     private EmperorPermissions emperorPermissions;
-    private ArrayList<Zone> zones;
+    private ZoneHandler zoneHandler;
+    private zoneEntryListener zel;
 
     @Override
     public void onEnable() {
         LOGGER.info("Activating gamer mode...");
         emperorPermissions = new EmperorPermissions(this);
         data = pluginIO.readYml(DATA_YML_PATH);
+        zoneHandler = new ZoneHandler();
         if (data.getKeys(false).contains("currency")) {
             currency = (MemorySection) data.getConfigurationSection("currency");
         } else {
@@ -46,11 +45,12 @@ public final class EmpireEconomy extends JavaPlugin {
             LOGGER.info("Loading zones...");
             MemorySection zoneData = (MemorySection) data.getConfigurationSection("zones");
             for (String i : zoneData.getKeys(false)) {
-                zones.add(new Zone(LOGGER, zoneData.getConfigurationSection(i)));
+                zoneHandler.load(LOGGER, zoneData.getConfigurationSection(i));
             }
         } else {
             LOGGER.info("Zone configuration is empty, is this correct?");
         }
+        zel = new zoneEntryListener(this, zoneHandler);
         new CommandLoader()
                 .withCommand(new CreateMoney(this, currency))
                 .withCommand(new Balance(currency))
@@ -60,12 +60,13 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new FindEmperor(this))
                 .withCommand(new Challenge(this, data))
                 .withCommand(new Wand())
+                .withCommand(new Claim(this, zoneHandler))
                 .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
                 .withEvent(new deathListener(this, data))
                 .withEvent(new joinListener(this, currency))
-                .withEvent(new playerClickListener())
+                .withEvent(new playerClickListener(this))
                 .load(this);
     }
 
@@ -73,7 +74,7 @@ public final class EmpireEconomy extends JavaPlugin {
     public void onDisable() {
         LOGGER.info("Deactivating gamer mode...");
         data.set("currency", currency);
-        data.set("zones", compileZoneData());
+        data.set("zones", zoneHandler.compileZoneData());
         pluginIO.writeYml(DATA_YML_PATH, data);
     }
 
@@ -95,14 +96,6 @@ public final class EmpireEconomy extends JavaPlugin {
 
     public boolean isChallengeActive() {
         return data.getBoolean("challengeActive");
-    }
-
-    private YamlConfiguration compileZoneData() {
-        YamlConfiguration res = new YamlConfiguration();
-        for (int i = 0; i < zones.size(); i++) {
-            res.set(String.valueOf(i), zones.get(i).save());
-        }
-        return res;
     }
 }
 

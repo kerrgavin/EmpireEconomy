@@ -20,6 +20,11 @@ public class ZoningCache {
         return instance;
     }
 
+    public Location[] get(Player p) {
+        Location[] c = cache.get(p.getDisplayName());
+        return cache.get(p.getDisplayName());
+    }
+
     public boolean add(Player p) {
         try {
             Location[] temp = new Location[2];
