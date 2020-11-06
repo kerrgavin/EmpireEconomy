@@ -1,6 +1,7 @@
 package io.github.ellismatthew4.empireeconomy;
 
 import io.github.ellismatthew4.empireeconomy.cmd.*;
+import io.github.ellismatthew4.empireeconomy.events.playerClickListener;
 import io.github.ellismatthew4.empireeconomy.utils.CommandLoader;
 import io.github.ellismatthew4.empireeconomy.utils.EventLoader;
 import io.github.ellismatthew4.empireeconomy.events.deathListener;
@@ -58,11 +59,13 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new Pay(currency))
                 .withCommand(new FindEmperor(this))
                 .withCommand(new Challenge(this, data))
+                .withCommand(new Wand())
                 .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
                 .withEvent(new deathListener(this, data))
                 .withEvent(new joinListener(this, currency))
+                .withEvent(new playerClickListener())
                 .load(this);
     }
 
