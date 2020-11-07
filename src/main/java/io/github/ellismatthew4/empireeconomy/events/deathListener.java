@@ -1,6 +1,9 @@
 package io.github.ellismatthew4.empireeconomy.events;
 
 import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
+import io.github.ellismatthew4.empireeconomy.permissions.EmperorService;
+import io.github.ellismatthew4.empireeconomy.utils.DataStoreService;
+import io.github.ellismatthew4.empireeconomy.utils.LoggerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
@@ -12,12 +15,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 
 public class deathListener implements Listener {
+    private final DataStoreService dataStoreService = DataStoreService.getInstance();
+    private final EmperorService emperorService = EmperorService.getInstance();
     private EmpireEconomy plugin;
-    private YamlConfiguration data;
 
-    public deathListener(EmpireEconomy plugin, YamlConfiguration data) {
+    public deathListener(EmpireEconomy plugin) {
         this.plugin = plugin;
-        this.data = data;
     }
 
     @EventHandler
@@ -28,7 +31,7 @@ public class deathListener implements Listener {
             ConsoleCommandSender sender = server.getConsoleSender();
             if (player.getKiller() instanceof Player) {
                 Player killer = (Player) player.getKiller();
-                plugin.setEmperor(killer.getDisplayName());
+                emperorService.setEmperor(killer.getDisplayName());
 
                 server.dispatchCommand(sender, "title @a subtitle \"has been deposed as Emperor!\"");
                 server.dispatchCommand(sender, "title @a title \"§4"+ player.getDisplayName() + "\"");
@@ -37,9 +40,9 @@ public class deathListener implements Listener {
                     server.dispatchCommand(sender, "title @a title \"§6" + killer.getDisplayName() + "\"");
                 }, 100);
             }
-            if (plugin.isChallengeActive() && player.getDisplayName() == data.getString("challenger")) {
-                data.set("challengeActive", false);
-                plugin.getEmperor().sendMessage("Congratulations on defeating your challenger!");
+            if (dataStoreService.data.challengeActive && player.getDisplayName() == dataStoreService.data.challenger) {
+                dataStoreService.data.challengeActive = false;
+                emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
             }
         }
     }

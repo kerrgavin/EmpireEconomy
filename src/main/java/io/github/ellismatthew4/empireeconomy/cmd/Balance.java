@@ -8,17 +8,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Balance extends PluginCommand {
-    private ConfigurationSection currency;
 
-    public Balance(ConfigurationSection currency) {
+    public Balance() {
         super("balance");
-        this.currency = currency;
     }
 
     @Override
     public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
         Player p = senderContainer.getPlayer();
-        p.sendMessage("You currently have $" + currency.getString(p.getDisplayName()));
+        p.sendMessage("You currently have $" + dataStoreService.data.currency.get(p.getDisplayName()));
         return true;
     }
 

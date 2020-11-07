@@ -11,11 +11,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class Pay extends PluginCommand {
-    private ConfigurationSection currency;
 
-    public Pay(ConfigurationSection currency) {
+    public Pay() {
         super("pay");
-        this.currency = currency;
     }
 
     // /pay <target> <amount>
@@ -24,13 +22,13 @@ public class Pay extends PluginCommand {
         Player p = senderContainer.getPlayer();
         Player target = commandCall.getArg(0).asPlayer();
         int amountToPay = commandCall.getArg(1).asInt();
-        int balance = currency.getInt(p.getDisplayName());
+        int balance = dataStoreService.data.currency.get(p.getDisplayName());
         if (balance < amountToPay) {
             p.sendMessage("You do not have enough money to do that.");
             return false;
         }
-        currency.set(p.getDisplayName(), balance - amountToPay);
-        currency.set(target.getDisplayName(), currency.getInt(target.getDisplayName()) + amountToPay);
+        dataStoreService.data.currency.put(p.getDisplayName(), balance - amountToPay);
+        dataStoreService.data.currency.put(target.getDisplayName(), dataStoreService.data.currency.get(target.getDisplayName()) + amountToPay);
         p.sendMessage("You paid $" + amountToPay + " to " + target.getDisplayName());
         target.sendMessage("You have been paid $" + amountToPay + " by " + p.getDisplayName());
         return true;

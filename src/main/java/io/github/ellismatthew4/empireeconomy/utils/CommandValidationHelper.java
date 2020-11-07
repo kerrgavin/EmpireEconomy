@@ -1,6 +1,5 @@
 package io.github.ellismatthew4.empireeconomy.utils;
 
-import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
 import io.github.ellismatthew4.empireeconomy.cmd.CommandArgument;
 import io.github.ellismatthew4.empireeconomy.cmd.CommandCall;
 import io.github.ellismatthew4.empireeconomy.cmd.PluginCommand;
@@ -8,6 +7,7 @@ import io.github.ellismatthew4.empireeconomy.cmd.SenderContainer;
 import org.bukkit.entity.Player;
 
 public class CommandValidationHelper {
+    private final LoggerService logger = LoggerService.getInstance();
     private final PluginCommand pluginCommand;
     private final SenderContainer sender;
     private final CommandCall commandCall;
@@ -55,8 +55,8 @@ public class CommandValidationHelper {
         return true;
     }
 
-    public boolean isChallengeInactive(EmpireEconomy plugin) {
-        if (plugin.isChallengeActive()) {
+    public boolean isChallengeInactive(boolean challengActive) {
+        if (challengActive) {
             warnAndSend("You must kill your challenger before using this command.");
             return false;
         }
@@ -74,6 +74,6 @@ public class CommandValidationHelper {
     }
 
     private void _warn(String message) {
-        pluginCommand.logger.warning(pluginCommand.getClass().getSimpleName() + ": " + message);
+        logger.warning(pluginCommand.getClass().getSimpleName() + ": " + message);
     }
 }

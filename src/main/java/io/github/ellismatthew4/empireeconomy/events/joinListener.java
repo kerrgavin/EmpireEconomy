@@ -1,27 +1,27 @@
 package io.github.ellismatthew4.empireeconomy.events;
 
 import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import io.github.ellismatthew4.empireeconomy.permissions.EmperorService;
+import io.github.ellismatthew4.empireeconomy.utils.DataStoreService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class joinListener implements Listener{
-    private ConfigurationSection currency;
+    private final DataStoreService dataStoreService = DataStoreService.getInstance();
+    private final EmperorService emperorService = EmperorService.getInstance();
     private EmpireEconomy plugin;
-    public joinListener(EmpireEconomy plugin, ConfigurationSection currency) {
+    public joinListener(EmpireEconomy plugin) {
         this.plugin = plugin;
-        this.currency = currency;
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerJoinEvent e) {
-        if (!currency.getKeys(false).contains(e.getPlayer().getDisplayName())) {
-            currency.set(e.getPlayer().getDisplayName(), 0);
+        if (dataStoreService.data.currency.get(e.getPlayer().getDisplayName()) != null) {
+            dataStoreService.data.currency.put(e.getPlayer().getDisplayName(), 0);
         }
-        if (plugin.isEmperor(e.getPlayer().getDisplayName())) {
-            plugin.setEmperor(e.getPlayer().getDisplayName());
+        if (emperorService.isEmperor(e.getPlayer().getDisplayName())) {
+            emperorService.setEmperor(e.getPlayer().getDisplayName());
         }
     }
 }

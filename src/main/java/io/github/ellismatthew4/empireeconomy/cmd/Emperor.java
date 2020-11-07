@@ -10,11 +10,9 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Emperor extends PluginCommand {
-    EmpireEconomy plugin;
 
-    public Emperor(EmpireEconomy plugin) {
+    public Emperor() {
         super("emperor");
-        this.plugin = plugin;
     }
 
     @Override
@@ -22,7 +20,7 @@ public class Emperor extends PluginCommand {
         Player player = senderContainer.getPlayer();
         if (player.hasPermission("ee.*")) {
             Player target = Bukkit.getPlayer(commandCall.getArg(0).arg);
-            plugin.setEmperor(target.getDisplayName());
+            emperorService.setEmperor(target.getDisplayName());
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "title @a subtitle \"has been crowned Emperor!\"");
             Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "title @a title \"§6" + target.getDisplayName() + "\"");
         }

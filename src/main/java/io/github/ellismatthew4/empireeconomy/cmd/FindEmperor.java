@@ -10,17 +10,15 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 
 public class FindEmperor extends PluginCommand {
-    EmpireEconomy plugin;
 
-    public FindEmperor(EmpireEconomy plugin) {
+    public FindEmperor() {
         super("findemperor");
-        this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
         Player p = senderContainer.getPlayer();
-        Player e = plugin.getEmperor();
+        Player e = emperorService.getEmperor();
         if (e == null) {
             p.sendMessage("Emperor is offline.");
             return true;
