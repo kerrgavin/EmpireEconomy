@@ -60,7 +60,7 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new FindEmperor(this))
                 .withCommand(new Challenge(this, data))
                 .withCommand(new Wand())
-                .withCommand(new Claim(this, zoneHandler))
+                .withCommand(new Claim(this, zoneHandler, data, currency))
                 .withCommand(new SetMessage(zoneHandler))
                 .withCommand(new SetZoningRate(this, data))
                 .withLogger(LOGGER)

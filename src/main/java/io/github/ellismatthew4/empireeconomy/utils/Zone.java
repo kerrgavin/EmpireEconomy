@@ -68,15 +68,15 @@ public class Zone {
 
     public boolean inside(Location l) {
         return
-                (l.getX() > Math.min(loc1.getX(), loc2.getX())) &&
-                (l.getX() < Math.max(loc1.getX(), loc2.getX())) &&
-                (l.getZ() > Math.min(loc1.getZ(), loc2.getZ())) &&
-                (l.getZ() < Math.max(loc1.getZ(), loc2.getZ()));
+                (l.getX() >= Math.min(loc1.getX(), loc2.getX())) &&
+                (l.getX() <= Math.max(loc1.getX(), loc2.getX())) &&
+                (l.getZ() >= Math.min(loc1.getZ(), loc2.getZ())) &&
+                (l.getZ() <= Math.max(loc1.getZ(), loc2.getZ()));
 
     }
 
-    public double area() {
-        return Math.abs(loc1.getX() - loc2.getX()) * Math.abs(loc1.getZ() - loc2.getZ());
+    public int area() {
+        return (int) (Math.abs(loc1.getX() - loc2.getX()) * Math.abs(loc1.getZ() - loc2.getZ()));
     }
 
     public void setMsg(String msg) {
