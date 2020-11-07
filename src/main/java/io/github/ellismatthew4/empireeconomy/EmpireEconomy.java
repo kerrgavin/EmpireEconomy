@@ -62,6 +62,7 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new Wand())
                 .withCommand(new Claim(this, zoneHandler))
                 .withCommand(new SetMessage(zoneHandler))
+                .withCommand(new SetZoningRate(this, data))
                 .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
