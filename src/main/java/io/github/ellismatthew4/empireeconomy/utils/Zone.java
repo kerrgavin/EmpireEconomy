@@ -12,7 +12,7 @@ public class Zone {
     public Location loc1;
     public Location loc2;
     public String name;
-    private String owner;
+    public String owner;
     public String msg = "";
 
     public Zone(Location loc1, Location loc2, String owner, String name) {
@@ -77,5 +77,9 @@ public class Zone {
 
     public double area() {
         return Math.abs(loc1.getX() - loc2.getX()) * Math.abs(loc1.getZ() - loc2.getZ());
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

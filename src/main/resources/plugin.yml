@@ -31,7 +31,10 @@ commands:
     description: Gives you a Zoning Wand.
   claim:
     description: Claims the area you just zoned out.
-    usage: /claim <area name>
+    usage: /claim <zone>
+  setmessage:
+    description: Sets the welcome message for the designated zone.
+    usage: /setmessage <zone> <message>
 permissions:
   ee.emperor:
     description: This permission is exclusive for Emperors

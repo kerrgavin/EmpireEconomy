@@ -21,7 +21,7 @@ public class zoneEntryListener{
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 onPlayerWalk(p);
             }
-        }, 0L, 100);
+        }, 0L, 20);
     }
 
     public void onPlayerWalk(Player p) {
@@ -30,7 +30,7 @@ public class zoneEntryListener{
         String message = "";
         cache.put(p, z);
         if (z != null && last != z) {
-            message = "You have now entered " + z.name;
+            message = z.msg;
         }
         if (!message.isEmpty()) {
             p.sendMessage(message);

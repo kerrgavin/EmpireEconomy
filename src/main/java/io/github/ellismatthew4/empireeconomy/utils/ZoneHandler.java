@@ -54,4 +54,21 @@ public class ZoneHandler {
         }
         return null;
     }
+
+    public int getZone(String name) {
+        for (int i = 0; i < zones.size(); i++) {
+            Zone z = zones.get(i);
+            if (z.name.equals(name))
+                return i;
+        }
+        return -1;
+    }
+
+    public Zone getZone(int i) {
+        return zones.get(i);
+    }
+
+    public void setZoneMessage(int i, String msg) {
+        zones.get(i).setMsg(msg);
+    }
 }

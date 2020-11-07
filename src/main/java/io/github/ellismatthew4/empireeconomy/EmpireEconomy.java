@@ -61,6 +61,7 @@ public final class EmpireEconomy extends JavaPlugin {
                 .withCommand(new Challenge(this, data))
                 .withCommand(new Wand())
                 .withCommand(new Claim(this, zoneHandler))
+                .withCommand(new SetMessage(zoneHandler))
                 .withLogger(LOGGER)
                 .load(this);
         new EventLoader()
