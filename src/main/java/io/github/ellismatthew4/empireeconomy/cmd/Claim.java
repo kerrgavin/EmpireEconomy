@@ -1,5 +1,6 @@
 package io.github.ellismatthew4.empireeconomy.cmd;
 
+import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
 import io.github.ellismatthew4.empireeconomy.cmd.conversations.ZoneCreationPrompt;
 import io.github.ellismatthew4.empireeconomy.utils.CommandValidationHelper;
 import io.github.ellismatthew4.empireeconomy.utils.Zone;
@@ -14,12 +15,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Claim extends PluginCommand {
     private ZoningCache cache;
-    private JavaPlugin plugin;
+    private EmpireEconomy plugin;
     private ZoneHandler zoneHandler;
     private ConfigurationSection data;
     private ConfigurationSection currency;
 
-    public Claim(JavaPlugin plugin, ZoneHandler zoneHandler, ConfigurationSection data, ConfigurationSection currency) {
+    public Claim(EmpireEconomy plugin, ZoneHandler zoneHandler, ConfigurationSection data, ConfigurationSection currency) {
         super("claim");
         this.plugin = plugin;
         this.zoneHandler = zoneHandler;
@@ -40,13 +41,17 @@ public class Claim extends PluginCommand {
                     .withTimeout(5)
                     .addConversationAbandonedListener((event) -> {
                         boolean success = event.gracefulExit();
-                        if (zoneHandler.addZone(p, z) && success) {
-                            currency.set(p.getDisplayName(), currency.getInt(p.getDisplayName()) - zoningCost);
-                            p.sendMessage("Claim successful!");
-                        } else if (!success) {
-                            p.sendMessage("Claim timed out.");
+                        if (success) {
+                            if (zoneHandler.addZone(p, z)) {
+                                Player emp = plugin.getEmperor();
+                                currency.set(p.getDisplayName(), currency.getInt(p.getDisplayName()) - zoningCost);
+                                currency.set(emp.getDisplayName(), currency.getInt(emp.getDisplayName()) + zoningCost);
+                                p.sendMessage("Claim successful!");
+                            } else {
+                                p.sendMessage("Claim failed. Is this area or name taken already?");
+                            }
                         } else {
-                            p.sendMessage("Claim failed. Is this area or name taken already?");
+                            p.sendMessage("Claim timed out.");
                         }
                     });
             Conversation convo = cf.buildConversation(p);

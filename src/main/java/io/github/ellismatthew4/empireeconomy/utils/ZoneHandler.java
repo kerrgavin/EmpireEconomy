@@ -26,7 +26,7 @@ public class ZoneHandler {
         if (zoneNotExists(z)) {
             zones.add(z);
         } else {
-            p.sendMessage("Invalid zone. Does someone already own this zone or name?");
+            return false;
         }
         return true;
     }
