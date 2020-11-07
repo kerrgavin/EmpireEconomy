@@ -13,9 +13,28 @@ public class CommandCall {
     public CommandCall(Command command, String alias, String[] args) {
         this.command = command;
         this.alias = alias;
+        Boolean concatenating = false;
+        String concatenatedArg = "";
         List<CommandArgument> temp = new ArrayList<>();
         for(String arg: args) {
-            temp.add(new CommandArgument(arg));
+            if (concatenating == false) {
+                if (arg.charAt(0) == '"') {
+                    concatenatedArg += arg + ' ';
+                    concatenating = true;
+                } else {
+                    temp.add(new CommandArgument(arg));
+                }
+            } else {
+                concatenatedArg += arg;
+                if (arg.charAt(arg.length() - 1) == '"') {
+                    concatenatedArg = concatenatedArg.substring(1, concatenatedArg.length()-1);
+                    temp.add(new CommandArgument(concatenatedArg));
+                    concatenatedArg = "";
+                    concatenating = false;
+                } else {
+                    concatenatedArg += ' ';
+                }
+            }
         }
         this.args = temp;
     }
