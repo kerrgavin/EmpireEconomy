@@ -31,6 +31,16 @@ public class ZoneHandler {
         return true;
     }
 
+    public boolean deleteZone(String name, String player) {
+        for (int i = 0; i < zones.size(); i++) {
+            if (zones.get(i).name.equals(name) && zones.get(i).owner.equals(player)) {
+                zones.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean zoneNotExists(Zone z) {
         for (int i = 0; i < zones.size(); i++) {
             Zone ez = zones.get(i);
@@ -39,6 +49,14 @@ public class ZoneHandler {
             }
         }
         return true;
+    }
+
+    public boolean zoneExists(String name) {
+        for (Zone z : zones) {
+            if (z.name.equals(name))
+                return true;
+        }
+        return false;
     }
 
     public void load(Logger LOGGER, ConfigurationSection c) {
