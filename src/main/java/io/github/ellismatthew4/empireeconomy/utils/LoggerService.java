@@ -16,7 +16,11 @@ public class LoggerService {
 
     public static LoggerService getInstance(Logger logger) {
         if (instance == null) {
-            instance = new LoggerService(logger);
+            synchronized (LoggerService.class) {
+                if (instance == null) {
+                    instance = new LoggerService(logger);
+                }
+            }
         }
         return instance;
     }

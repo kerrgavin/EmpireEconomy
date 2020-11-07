@@ -16,7 +16,7 @@ public class Balance extends PluginCommand {
     @Override
     public boolean onCommand(SenderContainer senderContainer, CommandCall commandCall) {
         Player p = senderContainer.getPlayer();
-        p.sendMessage("You currently have $" + dataStoreService.data.currency.get(p.getDisplayName()));
+        p.sendMessage("You currently have $" + data.currency.get(p.getDisplayName()));
         return true;
     }
 

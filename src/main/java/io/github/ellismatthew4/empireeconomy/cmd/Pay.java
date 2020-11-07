@@ -22,13 +22,13 @@ public class Pay extends PluginCommand {
         Player p = senderContainer.getPlayer();
         Player target = commandCall.getArg(0).asPlayer();
         int amountToPay = commandCall.getArg(1).asInt();
-        int balance = dataStoreService.data.currency.get(p.getDisplayName());
+        int balance = data.currency.get(p.getDisplayName());
         if (balance < amountToPay) {
             p.sendMessage("You do not have enough money to do that.");
             return false;
         }
-        dataStoreService.data.currency.put(p.getDisplayName(), balance - amountToPay);
-        dataStoreService.data.currency.put(target.getDisplayName(), dataStoreService.data.currency.get(target.getDisplayName()) + amountToPay);
+        data.currency.put(p.getDisplayName(), balance - amountToPay);
+        data.currency.put(target.getDisplayName(), data.currency.get(target.getDisplayName()) + amountToPay);
         p.sendMessage("You paid $" + amountToPay + " to " + target.getDisplayName());
         target.sendMessage("You have been paid $" + amountToPay + " by " + p.getDisplayName());
         return true;

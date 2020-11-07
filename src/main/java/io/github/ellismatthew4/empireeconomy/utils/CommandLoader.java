@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 public class CommandLoader {
     private Map<String, PluginCommand> commandMap;
-    private Logger logger;
 
     public CommandLoader() {
         commandMap = new HashMap<>();
@@ -25,19 +24,9 @@ public class CommandLoader {
         return this;
     }
 
-    public CommandLoader withLogger(Logger logger) {
-        this.logger = logger;
-        return this;
-    }
-
     public void load(JavaPlugin javaPlugin) {
-        if (this.logger != null) {
-            for (String key : commandMap.keySet()) {
-                commandMap.get(key).logger = this.logger;
-                javaPlugin.getCommand(key).setExecutor(commandMap.get(key));
-            }
-        } else {
-            throw new RuntimeException("No logger provided for commands");
+        for (String key : commandMap.keySet()) {
+            javaPlugin.getCommand(key).setExecutor(commandMap.get(key));
         }
     }
 }

@@ -1,29 +1,12 @@
 package io.github.ellismatthew4.empireeconomy.utils;
 
 import com.google.gson.Gson;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 
 public class PluginIO {
     private final LoggerService logger = LoggerService.getInstance();
     private final Gson gson = new Gson();
-
-    public void writeYml(String path, YamlConfiguration yamlConfiguration) {
-        try {
-            PrintWriter out = new PrintWriter(path);
-            out.println(yamlConfiguration.saveToString());
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            logger.warning("Could not save yml file: " + path);
-        }
-    }
-
-    public YamlConfiguration readYml(String path) {
-        logger.info("Reading YML file: " + path);
-        return YamlConfiguration.loadConfiguration(new File(path));
-    }
 
     public <T> void writeFile(String path, T object) {
         try {

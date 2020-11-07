@@ -25,7 +25,11 @@ public class EmperorService {
 
     public static EmperorService getInstance(JavaPlugin plugin) {
         if (instance == null) {
-            instance = new EmperorService(plugin);
+            synchronized (EmperorService.class) {
+                if (instance == null) {
+                    instance = new EmperorService(plugin);
+                }
+            }
         }
         return instance;
     }

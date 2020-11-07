@@ -1,6 +1,7 @@
 package io.github.ellismatthew4.empireeconomy.events;
 
 import io.github.ellismatthew4.empireeconomy.EmpireEconomy;
+import io.github.ellismatthew4.empireeconomy.data.Data;
 import io.github.ellismatthew4.empireeconomy.permissions.EmperorService;
 import io.github.ellismatthew4.empireeconomy.utils.DataStoreService;
 import io.github.ellismatthew4.empireeconomy.utils.LoggerService;
@@ -15,7 +16,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 
 public class deathListener implements Listener {
-    private final DataStoreService dataStoreService = DataStoreService.getInstance();
+    private final Data data = DataStoreService.getInstance().data;
     private final EmperorService emperorService = EmperorService.getInstance();
     private EmpireEconomy plugin;
 
@@ -40,8 +41,8 @@ public class deathListener implements Listener {
                     server.dispatchCommand(sender, "title @a title \"§6" + killer.getDisplayName() + "\"");
                 }, 100);
             }
-            if (dataStoreService.data.challengeActive && player.getDisplayName() == dataStoreService.data.challenger) {
-                dataStoreService.data.challengeActive = false;
+            if (data.challengeActive && player.getDisplayName() == data.challenger) {
+                data.challengeActive = false;
                 emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
             }
         }

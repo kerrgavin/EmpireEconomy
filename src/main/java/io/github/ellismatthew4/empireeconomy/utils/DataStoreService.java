@@ -17,7 +17,11 @@ public class DataStoreService {
 
     public static DataStoreService getInstance() {
         if (instance == null) {
-            instance = new DataStoreService();
+            synchronized (DataStoreService.class) {
+                if (instance == null) {
+                    instance = new DataStoreService();
+                }
+            }
         }
         return instance;
     }

@@ -1,5 +1,6 @@
 package io.github.ellismatthew4.empireeconomy.cmd;
 
+import io.github.ellismatthew4.empireeconomy.data.Data;
 import io.github.ellismatthew4.empireeconomy.permissions.EmperorService;
 import io.github.ellismatthew4.empireeconomy.utils.DataStoreService;
 import io.github.ellismatthew4.empireeconomy.utils.LoggerService;
@@ -10,7 +11,7 @@ import org.bukkit.command.CommandSender;
 public abstract class PluginCommand implements CommandExecutor {
     public final String command;
     public final LoggerService loggerService = LoggerService.getInstance();
-    public final DataStoreService dataStoreService = DataStoreService.getInstance();
+    public final Data data = DataStoreService.getInstance().data;
     public final EmperorService emperorService = EmperorService.getInstance();
 
     public PluginCommand(String command) {

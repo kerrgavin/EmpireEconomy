@@ -21,16 +21,16 @@ public class Challenge extends PluginCommand {
             p.sendMessage("Emperor is offline.");
             return true;
         }
-        if (dataStoreService.data.challenger != null) {
+        if (data.challenger != null) {
             p.sendMessage("Someone has challenged the Emperor in the past 90 minutes. Please try again later.");
             return true;
         }
-        dataStoreService.data.challenger = p.getDisplayName();
+        data.challenger = p.getDisplayName();
         e.sendMessage("You have been challenged by " + p.getDisplayName() + "!");
-        dataStoreService.data.challengeActive = true;
+        data.challengeActive = true;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            dataStoreService.data.challenger = null;
-            dataStoreService.data.challengeActive = false;
+            data.challenger = null;
+            data.challengeActive = false;
             e.sendMessage("You are now vulnerable to challenges again.");
         }, 108000);
         return true;

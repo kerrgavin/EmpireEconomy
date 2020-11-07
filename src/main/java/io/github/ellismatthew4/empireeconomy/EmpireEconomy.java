@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public final class EmpireEconomy extends JavaPlugin {
     private final LoggerService logger = LoggerService.getInstance(getLogger());
     private final DataStoreService dataStoreService = DataStoreService.getInstance();
-
     private final EmperorService emperorService = EmperorService.getInstance(this);
 
     @Override
