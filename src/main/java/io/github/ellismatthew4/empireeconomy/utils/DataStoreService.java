@@ -6,12 +6,13 @@ public class DataStoreService {
     private static DataStoreService instance = null;
     private final LoggerService logger = LoggerService.getInstance();
     private final PluginIO pluginIO;
-    private final String DATA_PATH = "data.yml";
-    public final Data data;
+    private final String DATA_PATH = "ee_data.json";
+    public Data data;
 
     private DataStoreService() {
         pluginIO = new PluginIO();
         data = pluginIO.readFile(DATA_PATH, Data.class);
+        data = data == null ? new Data() : data;
         data.init();
     }
 
