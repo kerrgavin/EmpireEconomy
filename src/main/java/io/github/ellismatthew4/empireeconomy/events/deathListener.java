@@ -28,6 +28,12 @@ public class deathListener implements Listener {
     public void onPlayerDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
+
+            if (data.challengeActive && player.getDisplayName() == data.challenger) {
+                data.challengeActive = false;
+                emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
+            }
+
             if (player.getKiller() instanceof Player) {
                 Player killer = (Player) player.getKiller();
                 if (emperorService.isEmperor(player.getDisplayName())) {
@@ -42,11 +48,6 @@ public class deathListener implements Listener {
                         server.dispatchCommand(sender, "title @a subtitle \"has been crowned Emperor!\"");
                         server.dispatchCommand(sender, "title @a title \"§6" + killer.getDisplayName() + "\"");
                     }, 100);
-                }
-                else if (data.challengeActive && killer.getDisplayName() == data.challenger) {
-                    data.challengeActive = false;
-                    data.challenger = null;
-                    emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
                 }
             }
         }
