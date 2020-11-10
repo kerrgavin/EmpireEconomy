@@ -30,7 +30,7 @@ public class ZoneHandler {
     private boolean zoneNotExists(Zone z) {
         for (int i = 0; i < zones.size(); i++) {
             Zone ez = zones.get(i);
-            if (ez.inside(z.loc1) || ez.inside(z.loc2) || ez.name.equals(z.name)) {
+            if (ez.inside(z.loc1.asLocation()) || ez.inside(z.loc2.asLocation()) || ez.name.equals(z.name)) {
                 return false;
             }
         }

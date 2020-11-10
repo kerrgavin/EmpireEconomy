@@ -22,9 +22,11 @@ public final class EmpireEconomy extends JavaPlugin {
         new CommandLoader()
                 .withCommand(new CreateMoney())
                 .withCommand(new Balance())
+                .withCommand(new Pay())
                 .withCommand(new Emperor())
                 .withCommand(new GodMode())
                 .withCommand(new Challenge(this))
+                .withCommand(new FindEmperor())
                 .withCommand(new Wand())
                 .withCommand(new Claim(this))
                 .withCommand(new SetMessage())
@@ -42,6 +44,8 @@ public final class EmpireEconomy extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info("Deactivating gamer mode...");
+        dataStoreService.data.challenger = null;
+        dataStoreService.data.challengeActive = false;
         dataStoreService.writeData();
     }
 }

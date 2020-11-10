@@ -28,22 +28,26 @@ public class deathListener implements Listener {
     public void onPlayerDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Player) {
             Player player = (Player) e.getEntity();
-            Server server = Bukkit.getServer();
-            ConsoleCommandSender sender = server.getConsoleSender();
             if (player.getKiller() instanceof Player) {
                 Player killer = (Player) player.getKiller();
-                emperorService.setEmperor(killer.getDisplayName());
+                if (emperorService.isEmperor(player.getDisplayName())) {
 
-                server.dispatchCommand(sender, "title @a subtitle \"has been deposed as Emperor!\"");
-                server.dispatchCommand(sender, "title @a title \"§4"+ player.getDisplayName() + "\"");
-                Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                    server.dispatchCommand(sender, "title @a subtitle \"has been crowned Emperor!\"");
-                    server.dispatchCommand(sender, "title @a title \"§6" + killer.getDisplayName() + "\"");
-                }, 100);
-            }
-            if (data.challengeActive && player.getDisplayName() == data.challenger) {
-                data.challengeActive = false;
-                emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
+                    Server server = Bukkit.getServer();
+                    ConsoleCommandSender sender = server.getConsoleSender();
+                    emperorService.setEmperor(killer.getDisplayName());
+
+                    server.dispatchCommand(sender, "title @a subtitle \"has been deposed as Emperor!\"");
+                    server.dispatchCommand(sender, "title @a title \"§4" + player.getDisplayName() + "\"");
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        server.dispatchCommand(sender, "title @a subtitle \"has been crowned Emperor!\"");
+                        server.dispatchCommand(sender, "title @a title \"§6" + killer.getDisplayName() + "\"");
+                    }, 100);
+                }
+                else if (data.challengeActive && killer.getDisplayName() == data.challenger) {
+                    data.challengeActive = false;
+                    data.challenger = null;
+                    emperorService.getEmperor().sendMessage("Congratulations on defeating your challenger!");
+                }
             }
         }
     }

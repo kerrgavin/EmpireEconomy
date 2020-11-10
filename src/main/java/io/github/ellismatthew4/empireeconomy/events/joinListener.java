@@ -16,8 +16,8 @@ public class joinListener implements Listener{
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerJoinEvent e) {
-        if (dataStoreService.data.currency.get(e.getPlayer().getDisplayName()) != null) {
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        if (dataStoreService.data.currency.get(e.getPlayer().getDisplayName()) == null) {
             dataStoreService.data.currency.put(e.getPlayer().getDisplayName(), 0);
         }
         if (emperorService.isEmperor(e.getPlayer().getDisplayName())) {
